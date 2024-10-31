@@ -1,13 +1,32 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useParams } from "react-router-dom";
-import products from "../product";
+import axios from "axios";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import Rating from "../components/Rating";
+import { useEffect, useState } from "react";
 const ProductScreen = () => {
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { productId } = useParams();
-  const product = products.find((product) => {
-    return product._id === productId;
-  });
 
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const response = await axios.get(`/api/products/${productId}`);
+        setProduct(response.data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProduct();
+  }, [productId]);
+
+  if (loading) return <div>Loading</div>;
+  if (error) return <div>{error.message}</div>;
+  if (!product) return <div>no product found</div>;
   return (
     <>
       <Link to="/" className="btn btn-dark my-3">
