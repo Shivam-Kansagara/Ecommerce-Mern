@@ -9,13 +9,25 @@ import {
   createRoutesFromElements,
   RouterProvider,
   Route,
+  Link,
 } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App></App>}>
+    <Route
+      path="/"
+      element={<App></App>}
+      errorElement={
+        <>
+          <h1 className="m-3">Area 51</h1>
+          <Link to="/" className="btn btn-dark mx-3">
+            Go Back
+          </Link>
+        </>
+      }
+    >
       <Route index element={<HomeScreen></HomeScreen>}></Route>
       <Route
         path="/products/:productId"

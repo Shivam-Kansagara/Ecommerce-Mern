@@ -2,7 +2,7 @@
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
-import Rating from "../components/Rating";
+import { Rating } from "../components/Rating";
 import { useEffect, useState } from "react";
 const ProductScreen = () => {
   const [product, setProduct] = useState(null);
@@ -13,10 +13,12 @@ const ProductScreen = () => {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const response = await axios.get(`/api/products/${productId}`);
+        const response = await axios.get(
+          `http://localhost:5000/api/products/${productId}`
+        );
         setProduct(response.data);
       } catch (error) {
-        setError(error);
+        setError(error.response.data.message);
       } finally {
         setLoading(false);
       }
@@ -25,7 +27,9 @@ const ProductScreen = () => {
   }, [productId]);
 
   if (loading) return <div>Loading</div>;
-  if (error) return <div>{error.message}</div>;
+  if (error) {
+    return <div>{error}</div>;
+  }
   if (!product) return <div>no product found</div>;
   return (
     <>
