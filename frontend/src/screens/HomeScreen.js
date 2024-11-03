@@ -17,7 +17,7 @@ const HomeScreen = () => {
   if (isError) {
     return (
       <h1>
-        <Message variant={"dark"}>{error}</Message>
+        <Message variant={"dark"}>{error.message}</Message>
       </h1>
     );
   }

@@ -4,6 +4,8 @@ import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import { Rating } from "../components/Rating";
 import { useGetProductQuery } from "../slices/productsApi";
 import Loader from "../components/Loader";
+import { Message } from "../components/Message";
+
 const ProductScreen = () => {
   const { productId } = useParams();
   const {
@@ -22,12 +24,7 @@ const ProductScreen = () => {
   }
   if (isError) {
     console.log(error);
-    return (
-      <>
-        <div>{error.status}</div>
-        <div>{error.data.message}</div>
-      </>
-    );
+    return <Message variant={"dark"}>{error.message}</Message>;
   }
 
   return (
