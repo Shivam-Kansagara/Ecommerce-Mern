@@ -1,36 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import { Rating } from "../components/Rating";
-import { useEffect, useState } from "react";
+import { useGetProductQuery } from "../slices/productsApi";
+import Loader from "../components/Loader";
 const ProductScreen = () => {
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { productId } = useParams();
+  const {
+    data: product,
+    isError,
+    error,
+    isLoading,
+  } = useGetProductQuery({ productId: productId });
 
-  useEffect(() => {
-    async function fetchProduct() {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/api/products/${productId}`
-        );
-        setProduct(response.data);
-      } catch (error) {
-        setError(error.response.data.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProduct();
-  }, [productId]);
-
-  if (loading) return <div>Loading</div>;
-  if (error) {
-    return <div>{error}</div>;
+  if (isLoading) {
+    return (
+      <h1>
+        <Loader></Loader>
+      </h1>
+    );
   }
-  if (!product) return <div>no product found</div>;
+  if (isError) {
+    console.log(error);
+    return (
+      <>
+        <div>{error.status}</div>
+        <div>{error.data.message}</div>
+      </>
+    );
+  }
+
   return (
     <>
       <Link to="/" className="btn btn-dark my-3">
@@ -52,7 +51,7 @@ const ProductScreen = () => {
               ></Rating>
             </ListGroup.Item>
             <ListGroup.Item>
-              <dev>{product.description}</dev>
+              <div>{product.description}</div>
             </ListGroup.Item>
           </ListGroup>
         </Col>

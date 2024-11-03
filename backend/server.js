@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 connectDb();
 
-app.use("/api/products/", productRouter);
+app.use("/api/products", productRouter);
 app.use(errorHandler);
 
 app.get("/", (req, res) => {
