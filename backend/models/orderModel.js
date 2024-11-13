@@ -26,7 +26,7 @@ const oderSchema = new mongoose.Schema(
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
     },
-    paymentMoethod: {
+    paymentMethod: {
       type: String,
       required: true,
     },
