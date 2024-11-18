@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
+import { CartScreen } from "./screens/CartScreen";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
         path="/products/:productId"
         element={<ProductScreen></ProductScreen>}
       ></Route>
+      <Route path="/cart" element={<CartScreen></CartScreen>}></Route>
     </Route>
   )
 );
